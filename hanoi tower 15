@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+//詰まるところbar[バーの高さ][バーの位置]
+int barbel[17][4] = { { 0,0,0,0 },{ 1,0,0,0 },{ 2,0,0,0 } ,{ 3,0,0,0 } ,{ 4,0,0,0 },{ 5,0,0,0 },
+{ 6,0,0,0 },{ 7,0,0,0 },{ 8,0,0,0 },{ 9,0,0,0 },{ 10,0,0,0 },{ 11,0,0,0 },{ 12,0,0,0 },{ 13,0,0,0 },
+{ 14,0,0,0 },{ 15,0,0,0 } };/*こう書くとゼロクリアされる*/
+										 //やはり高さはいる
+int bartakasa[3] = { 0,15,15 };
+
+char barbel0[] = { "                                 " };
+char barbel1[] = { "                #                " };
+char barbel2[] = { "               #2#               " };
+char barbel3[] = { "              ##3##              " };
+char barbel4[] = { "             ###4###             " };
+char barbel5[] = { "            ####5####            " };
+char barbel6[] = { "           #####6#####           " };
+char barbel7[] = { "          ######7######          " };
+char barbel8[] = { "         #######8#######         " };
+char barbel9[] = { "        ########9########        " };
+char barbel10[] = { "       #######010#########       " };
+char barbel11[] = { "      ########011##########      " };
+char barbel12[] = { "     #########012###########     " };
+char barbel13[] = { "    ##########013############    " };
+char barbel14[] = { "   ###########014#############   " };
+char barbel15[] = { "  ############015##############  " };
+char barbel16[] = { " #############016############### " };
+
+void move(int, int);
+void syokika(void);
+int takasacheck(int, int, int);
+int main(void)
+{
+	int i;
+	syokika();
+	system("Pause");
+	for (i = 1; i <= 32767; i++) {
+		printf("%d回目\n", i);
+		move((i&(i - 1)) % 3, ((i | (i - 1)) + 1) % 3);
+		syokika();
+	}
+
+	system("Pause");
+	return 0;
+}
+void move(int idoumoto, int idousaki)
+{
+	int idoumototakasa = 0;
+	int idousakitakasa = 0;
+	idoumototakasa = bartakasa[idoumoto];
+	idousakitakasa = bartakasa[idousaki];
+	idoumototakasa = takasacheck(idoumototakasa, idoumoto, idousaki);
+
+	barbel[idousakitakasa][idousaki] = barbel[idoumototakasa][idoumoto];
+	barbel[idoumototakasa][idoumoto] = 0;
+
+	bartakasa[idousaki] = bartakasa[idousaki] - 1;
+	bartakasa[idoumoto] = bartakasa[idoumoto] + 1;
+
+
+}
+void syokika(void) {
+	int i;
+	int j;
+
+	for (i = 0; i < 16; i++) {
+		for (j = 0; j < 4; j++) {
+			switch (barbel[i][j]) {
+				//文字列なので’が必要
+			case 0:
+				printf("%s", barbel0);
+				break;
+			case 1:
+				printf("%s", barbel1);
+				break;
+			case 2:
+				printf("%s", barbel2);
+				break;
+			case 3:
+				printf("%s", barbel3);
+				break;
+			case 4:
+				printf("%s", barbel4);
+				break;
+			case 5:
+				printf("%s", barbel5);
+				break;
+			case 6:
+				printf("%s", barbel6);
+				break;
+			case 7:
+				printf("%s", barbel7);
+				break;
+			case 8:
+				printf("%s", barbel8);
+				break;
+			case 9:
+				printf("%s", barbel9);
+				break;
+			case 10:
+				printf("%s", barbel10);
+				break;
+			case 11:
+				printf("%s", barbel11);
+				break;
+			case 12:
+				printf("%s", barbel12);
+				break;
+			case 13:
+				printf("%s", barbel13);
+				break;
+			case 14:
+				printf("%s", barbel14);
+				break;
+			case 15:
+				printf("%s", barbel15);
+				break;
+		
+
+
+			}
+		}printf("\n");
+	}printf("-------------------------------------------------------\n");
+}
+int takasacheck(int idoumototakasa, int idoumoto, int idousaki) {
+
+	if (barbel[idoumototakasa][idoumoto] == 0)
+	{
+		idoumototakasa = idoumototakasa + 1;
+		idoumototakasa = takasacheck(idoumototakasa, idoumoto, idousaki);
+	}
+	return idoumototakasa;
+}
